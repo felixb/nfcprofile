@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2012 Felix Bechstein -->
+<!--
+		This file is part of NfcProfile. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+    <string name="name">Name</string>
+    <string name="behavior">Behavior</string>
+    <string name="reset">Reset</string>
+    <string name="reset_on_second_touch">Reset on second touch.</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="vibrate_on_profile_switch">Vibrate on profile switch.</string>
+    <string name="profiles">Profiles</string>
+    <string name="add_profile">Add profile</string>
+    <string name="delete_profile">Delete profile</string>
+    <string name="write_tag">Write NFC tag</string>
+    <string name="writing">Writing NFC tag ...</string>
+    <string name="tag_written">NFC tag written</string>
+    <string name="error_writing_tag">Error writing NFC tag</string>
+    <string name="turn_on_nfc">Turn on NFC in your system settings</string>
+    <string name="touch_tag">Touch a NFC tag to write profile</string>
+    <string name="android_40_bug">Please note: Android 4.0 - 4.0.2 is unable to write unformatted NFC tags.</string>
+    <string name="unknown_profile">Unknown profile</string>
+    <string name="unknown_profile_hint">Set profile here to use it.</string>
+    <string name="new_profile">New Profile</string>
+    <string name="device">Device</string>
+    <string name="switch_on_airplan_mode_on">Switch on airplane mode</string>
+    <string name="switch_off_wifi">Switch off WiFi</string>
+    <string name="switch_off_bluetooth">Switch off Bluetooth</string>
+    <string name="sound">Sound</string>
+    <string name="ringtone_settings">Ringtone settings</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="set_ringtone_volume">Set ringtone volume</string>
+    <string name="ringtone_volume">Ringtone volume</string>
+    <string name="about">About</string>
+    <string name="version_">Version</string>
+    <string name="license_">License</string>
+    <string name="author_">Author</string>
+    <string name="website_">Website</string>
+    <string name="source_code_">Source code</string>
+    <string name="more_apps">More apps</string>
+    <string name="more_apps_hint">More apps from this author.</string>
+
+    <string-array name="ringtone_settings">
+        <item>Unchanged</item>
+        <item>Silent</item>
+        <item>Vibrate</item>
+        <item>Ring</item>
+        <item>Ring + Vibrate</item>
+    </string-array>
+
+</resources>

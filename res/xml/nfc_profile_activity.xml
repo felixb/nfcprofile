@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2012 Felix Bechstein -->
+<!--
+		This file is part of NfcProfile. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/behavior" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="reset_on_second_touch"
+            android:summary="@string/reset_on_second_touch"
+            android:title="@string/reset" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="vibrate"
+            android:summary="@string/vibrate_on_profile_switch"
+            android:title="@string/vibrate" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="profiles"
+        android:title="@string/profiles" >
+        <PreferenceScreen
+            android:key="add_profile"
+            android:title="@string/add_profile" >
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about" >
+        <Preference
+            android:summary="@string/app_version"
+            android:title="@string/version_" />
+
+        <PreferenceScreen
+            android:summary="@string/license"
+            android:title="@string/license_" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/license_url" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/author"
+            android:title="@string/author_" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/111111876192965636971" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/website"
+            android:title="@string/website_" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/website" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/source_code"
+            android:title="@string/source_code_" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/source_code" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/more_apps_hint"
+            android:title="@string/more_apps" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://market.android.com/search?q=Felix+Bechstein" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

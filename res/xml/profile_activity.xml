@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2012 Felix Bechstein -->
+<!--
+		This file is part of NfcProfile. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="container" >
+
+    <Preference
+        android:enabled="false"
+        android:key="unknown_profile"
+        android:summary="@string/unknown_profile_hint"
+        android:title="@string/unknown_profile" />
+
+    <EditTextPreference
+        android:defaultValue="@string/new_profile"
+        android:key="name"
+        android:title="@string/name" />
+
+    <PreferenceCategory android:title="@string/device" >
+        <CheckBoxPreference
+            android:disableDependentsState="true"
+            android:key="airplane_on"
+            android:title="@string/switch_on_airplan_mode_on" />
+        <!--
+        <CheckBoxPreference
+            android:dependency="airplane_on"
+            android:key="wifi_off"
+            android:title="@string/switch_off_wifi" />
+        <CheckBoxPreference
+            android:dependency="airplane_on"
+            android:key="bluetooth_off"
+            android:title="@string/switch_off_bluetooth" />
+        -->
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/sound" >
+        <ListPreference
+            android:defaultValue="unchanged"
+            android:entries="@array/ringtone_settings"
+            android:entryValues="@array/ringtone_values"
+            android:key="ringtone_settings"
+            android:title="@string/ringtone_settings" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
