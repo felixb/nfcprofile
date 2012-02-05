@@ -47,8 +47,6 @@ public final class ProfileActivity extends PreferenceActivity implements
 	private static final String TAG = "profile";
 	/** Preference's name: valid keys. */
 	private static final String PREF_VALIDKEYS = "valid_keys";
-	/** Key prefix. */
-	public static final String PREFIX = "prf-";
 	/** Extra: key. */
 	public static final String EXTRA_KEY = "key";
 	/** Profile's key. */
@@ -62,8 +60,7 @@ public final class ProfileActivity extends PreferenceActivity implements
 	 * @return new key
 	 */
 	private static String genKey(final Context context) {
-		String key = PREFIX
-				+ Utils.md5(String.valueOf(System.currentTimeMillis()));
+		String key = Utils.md5(String.valueOf(System.currentTimeMillis()));
 		addKey(context, key);
 		return key;
 	}
@@ -105,16 +102,20 @@ public final class ProfileActivity extends PreferenceActivity implements
 			return new ArrayList<String[]>(0);
 		}
 		ArrayList<String[]> ret = new ArrayList<String[]>(set.size());
+		HashSet<String> remove = new HashSet<String>(0);
 		for (String k : set) {
 			SharedPreferences sp = context
 					.getSharedPreferences(k, MODE_PRIVATE);
 			if (sp.contains("name")) {
 				ret.add(new String[] { k, sp.getString("name", null) });
 			} else {
-				set.remove(k);
+				remove.add(k);
 			}
 		}
-		p.edit().putStringSet(PREF_VALIDKEYS, set).apply();
+		if (remove.size() > 0) {
+			set.removeAll(remove);
+			p.edit().putStringSet(PREF_VALIDKEYS, set).apply();
+		}
 		return ret;
 	}
 

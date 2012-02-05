@@ -34,6 +34,8 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 		OnPreferenceClickListener {
 	/** Tag for Logging. */
 	// private static final String TAG = "main";
+	/** Key prefix. */
+	private static final String PREFIX = "profile-";
 
 	/**
 	 * {@inheritDoc}
@@ -59,7 +61,7 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 		}
 		for (String[] k : ProfileActivity.getValidKeys(this)) {
 			Preference profile = new Preference(this);
-			profile.setKey(k[0]);
+			profile.setKey(PREFIX + k[0]);
 			profile.setTitle(k[1]);
 			profile.setOnPreferenceClickListener(this);
 			ps.addPreference(profile);
@@ -72,9 +74,10 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 		if (key.equals("add_profile")) {
 			this.startActivity(new Intent(this, ProfileActivity.class));
 			return true;
-		} else if (key.startsWith(ProfileActivity.PREFIX)) {
+		} else if (key.startsWith(PREFIX)) {
 			Intent intent = new Intent(this, ProfileActivity.class);
-			intent.putExtra(ProfileActivity.EXTRA_KEY, key);
+			intent.putExtra(ProfileActivity.EXTRA_KEY,
+					key.substring(PREFIX.length()));
 			this.startActivity(intent);
 			return true;
 		}
