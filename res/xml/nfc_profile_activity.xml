@@ -53,7 +53,7 @@
             android:title="@string/author_" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/111111876192965636971" />
+                android:data="https://plus.google.com/101490294894990964252" />
         </PreferenceScreen>
         <PreferenceScreen
             android:summary="@string/website"
