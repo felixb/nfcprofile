@@ -36,9 +36,7 @@
     <string name="unknown_profile_hint">Set profile here to use it.</string>
     <string name="new_profile">New Profile</string>
     <string name="device">Device</string>
-    <string name="switch_on_airplan_mode_on">Switch on airplane mode</string>
-    <string name="switch_off_wifi">Switch off WiFi</string>
-    <string name="switch_off_bluetooth">Switch off Bluetooth</string>
+    <string name="aitplanemode_settings">Airplane mode settings</string>
     <string name="sound">Sound</string>
     <string name="ringtone_settings">Ringtone settings</string>
     <string name="ringtone">Ringtone</string>
@@ -52,7 +50,15 @@
     <string name="source_code_">Source code</string>
     <string name="more_apps">More apps</string>
     <string name="more_apps_hint">More apps from this author.</string>
+    <string name="activate_profile">Activate profile</string>
+    <string name="deactivate_profile">Deactivate profile</string>
 
+    <string-array name="onoff_settings">
+        <item>Unchanged</item>
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
+    
     <string-array name="ringtone_settings">
         <item>Unchanged</item>
         <item>Silent</item>

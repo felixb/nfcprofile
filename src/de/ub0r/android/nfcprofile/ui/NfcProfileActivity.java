@@ -22,7 +22,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
-import de.ub0r.android.lib.Log;
 import de.ub0r.android.nfcprofile.R;
 
 /**
@@ -43,7 +42,6 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.init("NfcProfile");
 		this.setTitle(R.string.app_name);
 		this.addPreferencesFromResource(R.xml.nfc_profile_activity);
 		Preference p = this.findPreference("add_profile");

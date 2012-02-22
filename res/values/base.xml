@@ -25,6 +25,11 @@
     <string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
     <string name="license_url">http://www.gnu.org/licenses/gpl-3.0.txt</string>
 
+    <string-array name="onoff_values">
+        <item>unchanged</item>
+        <item>activate</item>
+        <item>deactivate</item>
+    </string-array>
     <string-array name="ringtone_values">
         <item>unchanged</item>
         <item>silent</item>

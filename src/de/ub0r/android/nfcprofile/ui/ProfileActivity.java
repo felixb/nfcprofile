@@ -3,23 +3,24 @@
  * 
  * This file is part of NfcProfile.
  * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 3 of the
- * License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  * 
- * You should have received a copy of the GNU General Public License along with this program; If
- * not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * this program; If not, see <http://www.gnu.org/licenses/>.
  */
 package de.ub0r.android.nfcprofile.ui;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.view.MenuItem;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Utils;
 import de.ub0r.android.nfcprofile.R;
+import de.ub0r.android.nfcprofile.data.Profile;
 
 /**
  * Set preferences for a single profile.
@@ -47,6 +49,8 @@ public final class ProfileActivity extends PreferenceActivity implements
 	private static final String TAG = "profile";
 	/** Preference's name: valid keys. */
 	private static final String PREF_VALIDKEYS = "valid_keys";
+	/** Separate keys with this. */
+	private static final String SEPARATOR = " ##§## ";
 	/** Extra: key. */
 	public static final String EXTRA_KEY = "key";
 	/** Profile's key. */
@@ -76,15 +80,13 @@ public final class ProfileActivity extends PreferenceActivity implements
 	private static void addKey(final Context context, final String key) {
 		SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		Set<String> set = p.getStringSet(PREF_VALIDKEYS, null);
-		if (set == null) {
-			set = new HashSet<String>();
-		} else if (set.contains(key)) {
+		ArrayList<String> keys = parseKeys(p.getString(PREF_VALIDKEYS, null));
+		if (keys.contains(key)) {
 			// nothing to do
 			return;
 		}
-		set.add(key);
-		p.edit().putStringSet(PREF_VALIDKEYS, set).apply();
+		keys.add(key);
+		p.edit().putString(PREF_VALIDKEYS, concatKeys(keys)).apply();
 	}
 
 	/**
@@ -97,13 +99,10 @@ public final class ProfileActivity extends PreferenceActivity implements
 	public static List<String[]> getValidKeys(final Context context) {
 		SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		Set<String> set = p.getStringSet(PREF_VALIDKEYS, null);
-		if (set == null) {
-			return new ArrayList<String[]>(0);
-		}
-		ArrayList<String[]> ret = new ArrayList<String[]>(set.size());
+		ArrayList<String> keys = parseKeys(p.getString(PREF_VALIDKEYS, null));
+		ArrayList<String[]> ret = new ArrayList<String[]>(keys.size());
 		HashSet<String> remove = new HashSet<String>(0);
-		for (String k : set) {
+		for (String k : keys) {
 			SharedPreferences sp = context
 					.getSharedPreferences(k, MODE_PRIVATE);
 			if (sp.contains("name")) {
@@ -113,10 +112,48 @@ public final class ProfileActivity extends PreferenceActivity implements
 			}
 		}
 		if (remove.size() > 0) {
-			set.removeAll(remove);
-			p.edit().putStringSet(PREF_VALIDKEYS, set).apply();
+			keys.removeAll(remove);
+			p.edit().putString(PREF_VALIDKEYS, concatKeys(keys)).apply();
 		}
 		return ret;
+	}
+
+	/**
+	 * Parse keys read from {@link SharedPreferences}.
+	 * 
+	 * @param keys
+	 *            keys as String
+	 * @return array of keys
+	 */
+	private static ArrayList<String> parseKeys(final String keys) {
+		if (keys == null) {
+			return new ArrayList<String>(0);
+		}
+		String[] s = keys.split(SEPARATOR);
+		ArrayList<String> ret = new ArrayList<String>(s.length);
+		for (String k : s) {
+			ret.add(k);
+		}
+		return ret;
+	}
+
+	/**
+	 * Concatenate keys to safe them in {@link SharedPreferences}.
+	 * 
+	 * @param keys
+	 *            array of keys
+	 * @return keys as String
+	 */
+	private static String concatKeys(final ArrayList<String> keys) {
+		StringBuilder sb = new StringBuilder();
+		for (String k : keys) {
+			if (sb.length() > 0) {
+				sb.append(SEPARATOR);
+			}
+			sb.append(k);
+
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -202,6 +239,14 @@ public final class ProfileActivity extends PreferenceActivity implements
 			intent = new Intent(this, NfcWriterActivity.class);
 			intent.putExtra(EXTRA_KEY, this.key);
 			this.startActivity(intent);
+			return true;
+		case R.id.activate_profile:
+			new Profile(this.getPreferenceManager().getSharedPreferences())
+					.set(this);
+			return true;
+		case R.id.deactivate_profile:
+			new Profile(this.getPreferenceManager().getSharedPreferences())
+					.reset(this);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

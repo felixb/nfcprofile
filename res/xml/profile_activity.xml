@@ -29,27 +29,20 @@
         android:title="@string/name" />
 
     <PreferenceCategory android:title="@string/device" >
-        <CheckBoxPreference
-            android:disableDependentsState="true"
-            android:key="airplane_on"
-            android:title="@string/switch_on_airplan_mode_on" />
-        <!--
-        <CheckBoxPreference
-            android:dependency="airplane_on"
-            android:key="wifi_off"
-            android:title="@string/switch_off_wifi" />
-        <CheckBoxPreference
-            android:dependency="airplane_on"
-            android:key="bluetooth_off"
-            android:title="@string/switch_off_bluetooth" />
-        -->
+        <ListPreference
+            android:title="@string/aitplanemode_settings"
+            android:defaultValue="unchanged"
+            android:entries="@array/onoff_settings"
+            android:entryValues="@array/onoff_values"
+            android:key="AirplaneModeSetting" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/sound" >
         <ListPreference
             android:defaultValue="unchanged"
             android:entries="@array/ringtone_settings"
             android:entryValues="@array/ringtone_values"
-            android:key="ringtone_settings"
+            android:key="RingModeSetting"
             android:title="@string/ringtone_settings" />
     </PreferenceCategory>
 

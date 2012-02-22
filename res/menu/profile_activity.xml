@@ -26,5 +26,11 @@
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:showAsAction="ifRoom|withText"
         android:title="@string/delete_profile"/>
+    <item
+        android:id="@+id/activate_profile"
+        android:title="@string/activate_profile"/>
+    <item
+        android:id="@+id/deactivate_profile"
+        android:title="@string/deactivate_profile"/>
 
 </menu>
