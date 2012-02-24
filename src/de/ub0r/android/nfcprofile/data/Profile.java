@@ -19,6 +19,7 @@
 package de.ub0r.android.nfcprofile.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -65,6 +66,9 @@ public final class Profile implements ISetable {
 					this.settings.add(new AirplaneModeSetting());
 				} else if (k.equals(RingModeSetting.class.getSimpleName())) {
 					this.settings.add(new RingModeSetting());
+				} else if (k.startsWith(VibratorSetting.class.getSimpleName())) {
+					String s = k.replaceFirst("^.*_", "");
+					this.settings.add(new VibratorSetting(Integer.parseInt(s)));
 				} // else if ..
 			}
 		}
@@ -72,6 +76,8 @@ public final class Profile implements ISetable {
 		for (Setting s : this.settings) {
 			s.load(p);
 		}
+
+		Collections.sort(this.settings, new SettingComparator());
 	}
 
 	@Override

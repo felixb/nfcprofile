@@ -30,20 +30,31 @@
 
     <PreferenceCategory android:title="@string/device" >
         <ListPreference
-            android:title="@string/aitplanemode_settings"
             android:defaultValue="unchanged"
             android:entries="@array/onoff_settings"
             android:entryValues="@array/onoff_values"
-            android:key="AirplaneModeSetting" />
-
+            android:key="AirplaneModeSetting"
+            android:title="@string/aitplanemode_settings" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/sound" >
         <ListPreference
             android:defaultValue="unchanged"
-            android:entries="@array/ringtone_settings"
-            android:entryValues="@array/ringtone_values"
+            android:entries="@array/onoff_settings"
+            android:entryValues="@array/onoff_values"
             android:key="RingModeSetting"
             android:title="@string/ringtone_settings" />
+        <ListPreference
+            android:defaultValue="unchanged"
+            android:entries="@array/vibrator_settings"
+            android:entryValues="@array/vibrator_values"
+            android:key="ViratorSetting_0"
+            android:title="@string/vibrator_settings_ringtone" />
+        <ListPreference
+            android:defaultValue="unchanged"
+            android:entries="@array/vibrator_settings"
+            android:entryValues="@array/vibrator_values"
+            android:key="ViratorSetting_1"
+            android:title="@string/vibrator_settings_notification" />
     </PreferenceCategory>
 
 </PreferenceScreen>

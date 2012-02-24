@@ -30,18 +30,28 @@ import de.ub0r.android.lib.Log;
  * 
  * @author flx
  */
-public final class RingModeSetting extends Setting {
+public final class VibratorSetting extends Setting {
 	/** Tag for Logging. */
-	private static final String TAG = RingModeSetting.class.getSimpleName();
+	private static final String TAG = VibratorSetting.class.getSimpleName();
 
+	/** Vibrator mode: vibrate only when silent. */
+	private static final String SILENT = "silent";
+
+	/** Type of ringer. */
+	private final int vibratorType;
 	/** Desired state. */
 	private String desiredState;
 
 	/**
 	 * Default constructor.
+	 * 
+	 * @param vt
+	 *            AudioManager.VIBRATE_TYPE_RINGER or
+	 *            AudioManager.VIBRATE_TYPE_NOTIFICATON
 	 */
-	public RingModeSetting() {
-		super();
+	public VibratorSetting(final int vt) {
+		super(vt);
+		this.vibratorType = vt;
 	}
 
 	@Override
@@ -56,7 +66,7 @@ public final class RingModeSetting extends Setting {
 		// save current settings
 		Editor e = PreferenceManager.getDefaultSharedPreferences(context)
 				.edit();
-		e.putInt(this.getResetKey(), amgr.getRingerMode());
+		e.putInt(this.getResetKey(), amgr.getVibrateSetting(this.vibratorType));
 		e.apply();
 
 		// set to desired state
@@ -64,15 +74,16 @@ public final class RingModeSetting extends Setting {
 			Log.d(TAG, "ignore desiredState == null");
 		} else if (this.desiredState.equals(ACTIVATE)) {
 			Log.i(TAG, "set on");
-			amgr.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+			amgr.setVibrateSetting(this.vibratorType,
+					AudioManager.VIBRATE_SETTING_ON);
 		} else if (this.desiredState.equals(DEACTIVATE)) {
 			Log.i(TAG, "set off");
-			int vm = amgr.getVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER);
-			if (vm == AudioManager.VIBRATE_SETTING_OFF) {
-				amgr.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-			} else {
-				amgr.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-			}
+			amgr.setVibrateSetting(this.vibratorType,
+					AudioManager.VIBRATE_SETTING_OFF);
+		} else if (this.desiredState.equals(SILENT)) {
+			Log.i(TAG, "set on only when silent");
+			amgr.setVibrateSetting(this.vibratorType,
+					AudioManager.VIBRATE_SETTING_ONLY_SILENT);
 		} else {
 			Log.e(TAG, "unknown desired state");
 		}
@@ -85,8 +96,9 @@ public final class RingModeSetting extends Setting {
 					.getSystemService(Context.AUDIO_SERVICE);
 			SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
-			amgr.setRingerMode(p.getInt(this.getResetKey(),
-					AudioManager.RINGER_MODE_NORMAL));
+			amgr.setVibrateSetting(this.vibratorType, p.getInt(
+					this.getResetKey(),
+					AudioManager.VIBRATE_SETTING_ONLY_SILENT));
 		}
 	}
 }

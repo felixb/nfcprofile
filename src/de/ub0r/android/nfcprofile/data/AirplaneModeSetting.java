@@ -3,16 +3,18 @@
  * 
  * This file is part of NfcProfile.
  * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 3 of the
- * License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  * 
- * You should have received a copy of the GNU General Public License along with this program; If
- * not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * this program; If not, see <http://www.gnu.org/licenses/>.
  */
 package de.ub0r.android.nfcprofile.data;
 
@@ -36,9 +38,9 @@ public final class AirplaneModeSetting extends Setting {
 	private static final String TAG = AirplaneModeSetting.class.getSimpleName();
 
 	/** Reset state: airplane mode. */
-	private static final String RESET_AIRPLANE = "RESET_airplane";
+	private static final String RESET_MODE = "mode";
 	/** Reset state: airplane radios. */
-	private static final String RESET_AIRPLANE_RADIOS = "RESET_airplane_radios";
+	private static final String RESET_RADIOS = "radios";
 
 	/** Desired state. */
 	private Boolean desiredState;
@@ -47,15 +49,15 @@ public final class AirplaneModeSetting extends Setting {
 	 * Default constructor.
 	 */
 	public AirplaneModeSetting() {
-		super(AirplaneModeSetting.class.getSimpleName());
+		super();
 	}
 
 	@Override
 	public void load(final SharedPreferences p) {
 		String s = p.getString(this.getName(), null);
-		if (s != null && s.equals(Setting.ACTIVATE)) {
+		if (s != null && s.equals(ACTIVATE)) {
 			this.desiredState = true;
-		} else if (s != null && s.equals(Setting.DEACTIVATE)) {
+		} else if (s != null && s.equals(DEACTIVATE)) {
 			this.desiredState = false;
 		} else {
 			this.desiredState = null;
@@ -68,10 +70,10 @@ public final class AirplaneModeSetting extends Setting {
 		ContentResolver cr = context.getContentResolver();
 		Editor e = PreferenceManager.getDefaultSharedPreferences(context)
 				.edit();
-		e.putInt(RESET_AIRPLANE,
+		e.putInt(this.getResetKey(RESET_MODE),
 				Settings.System.getInt(cr, Settings.System.AIRPLANE_MODE_ON, 0));
-		e.putString(RESET_AIRPLANE_RADIOS, Settings.System.getString(cr,
-				Settings.System.AIRPLANE_MODE_RADIOS));
+		e.putString(this.getResetKey(RESET_RADIOS), Settings.System.getString(
+				cr, Settings.System.AIRPLANE_MODE_RADIOS));
 		e.apply();
 
 		// set to desired state
@@ -85,7 +87,8 @@ public final class AirplaneModeSetting extends Setting {
 		if (this.desiredState != null) {
 			SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
-			this.setAirplaneMode(context, p.getInt(RESET_AIRPLANE, 0) == 1);
+			this.setAirplaneMode(context,
+					p.getInt(this.getResetKey(RESET_MODE), 0) == 1);
 		}
 	}
 
@@ -119,7 +122,7 @@ public final class AirplaneModeSetting extends Setting {
 				Settings.System.putString(cr,
 						Settings.System.AIRPLANE_MODE_RADIOS, s);
 			} else {
-				String s = p.getString(RESET_AIRPLANE_RADIOS, null);
+				String s = p.getString(this.getResetKey(RESET_RADIOS), null);
 				Log.d(TAG, "set " + Settings.System.AIRPLANE_MODE_RADIOS + "="
 						+ s);
 				if (s != null) {

@@ -58,6 +58,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NfcWriterActivity" />
+
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAIMoCpLaQktQMl48i-U3ugnDHJu5wh3r9AZu6pgg" />
     </application>
 
 </manifest>

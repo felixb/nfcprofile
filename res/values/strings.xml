@@ -36,9 +36,11 @@
     <string name="unknown_profile_hint">Set profile here to use it.</string>
     <string name="new_profile">New Profile</string>
     <string name="device">Device</string>
-    <string name="aitplanemode_settings">Airplane mode settings</string>
+    <string name="aitplanemode_settings">Airplane mode</string>
     <string name="sound">Sound</string>
-    <string name="ringtone_settings">Ringtone settings</string>
+    <string name="ringtone_settings">Ringtone</string>
+    <string name="vibrator_settings_ringtone">Vibrator (Ringtone)</string>
+    <string name="vibrator_settings_notification">Vibrator (Notification)</string>
     <string name="ringtone">Ringtone</string>
     <string name="set_ringtone_volume">Set ringtone volume</string>
     <string name="ringtone_volume">Ringtone volume</string>
@@ -54,17 +56,16 @@
     <string name="deactivate_profile">Deactivate profile</string>
 
     <string-array name="onoff_settings">
-        <item>Unchanged</item>
+        <item>Keep unchanged</item>
         <item>On</item>
         <item>Off</item>
     </string-array>
     
-    <string-array name="ringtone_settings">
-        <item>Unchanged</item>
-        <item>Silent</item>
-        <item>Vibrate</item>
-        <item>Ring</item>
-        <item>Ring + Vibrate</item>
+    <string-array name="vibrator_settings">
+        <item>Keep unchanged</item>
+        <item>On</item>
+        <item>Off</item>
+        <item>Vibrate when silent</item>
     </string-array>
 
 </resources>

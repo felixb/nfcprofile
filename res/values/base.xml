@@ -30,12 +30,11 @@
         <item>activate</item>
         <item>deactivate</item>
     </string-array>
-    <string-array name="ringtone_values">
+    <string-array name="vibrator_values">
         <item>unchanged</item>
+        <item>activate</item>
+        <item>deactivate</item>
         <item>silent</item>
-        <item>vibrate</item>
-        <item>ring</item>
-        <item>ring_vibrate</item>
     </string-array>
 
     <style name="MyTheme" parent="@android:style/Theme" />
