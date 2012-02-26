@@ -33,8 +33,10 @@
 
     <application
         android:name=".NfcProfileApplication"
+        android:backupAgent=".NfcProfileBackupAgent"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:restoreAnyVersion="true"
         android:theme="@style/MyTheme" >
         <activity
             android:name=".ui.NfcProfileActivity"

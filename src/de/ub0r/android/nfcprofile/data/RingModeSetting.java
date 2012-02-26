@@ -47,6 +47,9 @@ public final class RingModeSetting extends Setting {
 	@Override
 	public void load(final SharedPreferences p) {
 		this.desiredState = p.getString(this.getName(), null);
+		if (this.desiredState == UNCHANGED) {
+			this.desiredState = null;
+		}
 	}
 
 	@Override

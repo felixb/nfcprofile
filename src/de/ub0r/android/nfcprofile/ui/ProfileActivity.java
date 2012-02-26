@@ -18,13 +18,7 @@
  */
 package de.ub0r.android.nfcprofile.ui;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -34,7 +28,6 @@ import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuItem;
 import de.ub0r.android.lib.Log;
-import de.ub0r.android.lib.Utils;
 import de.ub0r.android.nfcprofile.R;
 import de.ub0r.android.nfcprofile.data.Profile;
 
@@ -47,128 +40,10 @@ public final class ProfileActivity extends PreferenceActivity implements
 		OnPreferenceChangeListener {
 	/** Tag for Logging. */
 	private static final String TAG = "profile";
-	/** Preference's name: valid keys. */
-	private static final String PREF_VALIDKEYS = "valid_keys";
-	/** Separate keys with this. */
-	private static final String SEPARATOR = " ##§## ";
 	/** Extra: key. */
 	public static final String EXTRA_KEY = "key";
 	/** Profile's key. */
 	private String key;
-
-	/**
-	 * Generate a new key.
-	 * 
-	 * @param context
-	 *            {@link Context}
-	 * @return new key
-	 */
-	private static String genKey(final Context context) {
-		String key = Utils.md5(String.valueOf(System.currentTimeMillis()));
-		addKey(context, key);
-		return key;
-	}
-
-	/**
-	 * Add a key to list of keys.
-	 * 
-	 * @param context
-	 *            {@link Context}
-	 * @param key
-	 *            key
-	 */
-	private static void addKey(final Context context, final String key) {
-		SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		ArrayList<String> keys = parseKeys(p.getString(PREF_VALIDKEYS, null));
-		if (keys.contains(key)) {
-			// nothing to do
-			return;
-		}
-		keys.add(key);
-		p.edit().putString(PREF_VALIDKEYS, concatKeys(keys)).apply();
-	}
-
-	/**
-	 * Get a {@link List} of key/name pairs of valid profiles.
-	 * 
-	 * @param context
-	 *            {@link Context}
-	 * @return {@link List} of key/name pairs
-	 */
-	public static List<String[]> getValidKeys(final Context context) {
-		SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		ArrayList<String> keys = parseKeys(p.getString(PREF_VALIDKEYS, null));
-		ArrayList<String[]> ret = new ArrayList<String[]>(keys.size());
-		HashSet<String> remove = new HashSet<String>(0);
-		for (String k : keys) {
-			SharedPreferences sp = context
-					.getSharedPreferences(k, MODE_PRIVATE);
-			if (sp.contains("name")) {
-				ret.add(new String[] { k, sp.getString("name", null) });
-			} else {
-				remove.add(k);
-			}
-		}
-		if (remove.size() > 0) {
-			keys.removeAll(remove);
-			p.edit().putString(PREF_VALIDKEYS, concatKeys(keys)).apply();
-		}
-		return ret;
-	}
-
-	/**
-	 * Parse keys read from {@link SharedPreferences}.
-	 * 
-	 * @param keys
-	 *            keys as String
-	 * @return array of keys
-	 */
-	private static ArrayList<String> parseKeys(final String keys) {
-		if (keys == null) {
-			return new ArrayList<String>(0);
-		}
-		String[] s = keys.split(SEPARATOR);
-		ArrayList<String> ret = new ArrayList<String>(s.length);
-		for (String k : s) {
-			ret.add(k);
-		}
-		return ret;
-	}
-
-	/**
-	 * Concatenate keys to safe them in {@link SharedPreferences}.
-	 * 
-	 * @param keys
-	 *            array of keys
-	 * @return keys as String
-	 */
-	private static String concatKeys(final ArrayList<String> keys) {
-		StringBuilder sb = new StringBuilder();
-		for (String k : keys) {
-			if (sb.length() > 0) {
-				sb.append(SEPARATOR);
-			}
-			sb.append(k);
-
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * Check if a key is valid.
-	 * 
-	 * @param context
-	 *            {@link Context}
-	 * @param key
-	 *            key
-	 * @return true, if profile exists
-	 */
-	public static boolean isValidKey(final Context context, final String key) {
-		SharedPreferences sp = context.getSharedPreferences(key, MODE_PRIVATE);
-		return sp.contains("name");
-	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -176,9 +51,9 @@ public final class ProfileActivity extends PreferenceActivity implements
 		if (savedInstanceState == null) {
 			this.key = this.getIntent().getStringExtra(EXTRA_KEY);
 			if (this.key == null) {
-				this.key = genKey(this);
+				this.key = Profile.genKey(this);
 			} else {
-				addKey(this, this.key);
+				Profile.addKey(this, this.key);
 			}
 		} else {
 			this.key = savedInstanceState.getString(EXTRA_KEY);

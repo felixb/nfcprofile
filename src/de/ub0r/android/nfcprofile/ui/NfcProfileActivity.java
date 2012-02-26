@@ -3,26 +3,32 @@
  * 
  * This file is part of NfcProfile.
  * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 3 of the
- * License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  * 
- * You should have received a copy of the GNU General Public License along with this program; If
- * not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * this program; If not, see <http://www.gnu.org/licenses/>.
  */
 package de.ub0r.android.nfcprofile.ui;
 
+import android.app.backup.BackupManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
+import de.ub0r.android.nfcprofile.NfcProfileBackupAgent;
 import de.ub0r.android.nfcprofile.R;
+import de.ub0r.android.nfcprofile.data.Profile;
 
 /**
  * Default Activity showing preferences and list of profiles.
@@ -57,7 +63,7 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 		for (int i = l - 1; i > 0; i--) {
 			ps.removePreference(ps.getPreference(i));
 		}
-		for (String[] k : ProfileActivity.getValidKeys(this)) {
+		for (String[] k : Profile.getValidKeys(this)) {
 			Preference profile = new Preference(this);
 			profile.setKey(PREFIX + k[0]);
 			profile.setTitle(k[1]);
@@ -80,5 +86,16 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		PreferenceManager
+				.getDefaultSharedPreferences(this)
+				.edit()
+				.putLong(NfcProfileBackupAgent.PREF_LAST_CHANGE,
+						System.currentTimeMillis()).apply();
+		BackupManager.dataChanged(this.getApplicationInfo().packageName);
 	}
 }
