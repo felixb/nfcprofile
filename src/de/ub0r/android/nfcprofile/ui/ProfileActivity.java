@@ -19,6 +19,7 @@
 package de.ub0r.android.nfcprofile.ui;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -29,7 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.nfcprofile.R;
+import de.ub0r.android.nfcprofile.data.AirplaneModeSetting;
 import de.ub0r.android.nfcprofile.data.Profile;
+import de.ub0r.android.nfcprofile.data.RingModeSetting;
+import de.ub0r.android.nfcprofile.data.VibratorSetting;
 
 /**
  * Set preferences for a single profile.
@@ -63,15 +67,48 @@ public final class ProfileActivity extends PreferenceActivity implements
 		PreferenceManager pm = this.getPreferenceManager();
 		pm.setSharedPreferencesName(this.key);
 		this.addPreferencesFromResource(R.xml.profile_activity);
-		Preference p = this.findPreference("name");
-		p.setOnPreferenceChangeListener(this);
-		this.onPreferenceChange(p,
-				pm.getSharedPreferences().getString(p.getKey(), null));
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				this.findPreference("name"), this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				this.findPreference(AirplaneModeSetting.class.getSimpleName()),
+				this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				this.findPreference(RingModeSetting.class.getSimpleName()),
+				this);
+		this.setAndInvokeOnPreferenceChangeListener(
+				pm,
+				this.findPreference(VibratorSetting.class.getSimpleName()
+						+ "_0"), this);
+		this.setAndInvokeOnPreferenceChangeListener(
+				pm,
+				this.findPreference(VibratorSetting.class.getSimpleName()
+						+ "_1"), this);
 		if (!Intent.ACTION_INSERT.equals(this.getIntent().getAction())) {
 			PreferenceScreen ps = (PreferenceScreen) this
 					.findPreference("container");
 			ps.removePreference(this.findPreference("unknown_profile"));
 		}
+	}
+
+	/**
+	 * Set and invoke {@link OnPreferenceChangeListener}.
+	 * 
+	 * @param pm
+	 *            {@link PreferenceManager}
+	 * @param p
+	 *            {@link Preference}
+	 * @param opcl
+	 *            {@link OnPreferenceChangeListener}
+	 */
+	private void setAndInvokeOnPreferenceChangeListener(
+			final PreferenceManager pm, final Preference p,
+			final OnPreferenceChangeListener opcl) {
+		if (p == null || pm == null || opcl == null) {
+			return;
+		}
+		p.setOnPreferenceChangeListener(this);
+		opcl.onPreferenceChange(p,
+				pm.getSharedPreferences().getString(p.getKey(), null));
 	}
 
 	@Override
@@ -86,8 +123,41 @@ public final class ProfileActivity extends PreferenceActivity implements
 		String k = preference.getKey();
 		if (k.equals("name")) {
 			preference.setSummary((CharSequence) newValue);
+		} else if (k.equals(AirplaneModeSetting.class.getSimpleName())
+				|| k.equals(RingModeSetting.class.getSimpleName())) {
+			preference.setSummary(this.translateStringList(
+					R.array.onoff_values, R.array.onoff_settings,
+					(String) newValue));
+		} else if (k.startsWith(VibratorSetting.class.getSimpleName())) {
+			preference.setSummary(this.translateStringList(
+					R.array.vibrator_values, R.array.vibrator_settings,
+					(String) newValue));
 		}
 		return true;
+	}
+
+	/**
+	 * Translate selected key to value.
+	 * 
+	 * @param resIdKeys
+	 *            keys
+	 * @param resIdValues
+	 *            values
+	 * @param k
+	 *            selected key
+	 * @return selected value
+	 */
+	private String translateStringList(final int resIdKeys,
+			final int resIdValues, final String k) {
+		Resources r = this.getResources();
+		String[] stringk = r.getStringArray(resIdKeys);
+		String[] stringv = r.getStringArray(resIdValues);
+		for (int i = 0; i < stringk.length; i++) {
+			if (k.equals(stringk[i])) {
+				return stringv[i];
+			}
+		}
+		return null;
 	}
 
 	@Override
