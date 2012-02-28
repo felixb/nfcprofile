@@ -185,6 +185,14 @@ public final class ProfileActivity extends PreferenceActivity implements
 			intent.putExtra(EXTRA_KEY, this.key);
 			this.startActivity(intent);
 			return true;
+		case R.id.share_profile:
+			intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_TEXT, NfcWriterActivity.URI_PREFIX
+					+ this.key);
+			this.startActivity(Intent.createChooser(intent,
+					this.getString(R.string.share)));
+			return true;
 		case R.id.activate_profile:
 			new Profile(this.getPreferenceManager().getSharedPreferences())
 					.set(this);

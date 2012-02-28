@@ -27,6 +27,11 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/delete_profile"/>
     <item
+        android:id="@+id/share_profile"
+        android:icon="@android:drawable/ic_menu_share"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/share" />
+    <item
         android:id="@+id/activate_profile"
         android:title="@string/activate_profile"/>
     <item
