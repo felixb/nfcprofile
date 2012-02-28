@@ -33,6 +33,8 @@ import de.ub0r.android.nfcprofile.R;
 import de.ub0r.android.nfcprofile.data.AirplaneModeSetting;
 import de.ub0r.android.nfcprofile.data.Profile;
 import de.ub0r.android.nfcprofile.data.RingModeSetting;
+import de.ub0r.android.nfcprofile.data.ScreenBrightnessSetting;
+import de.ub0r.android.nfcprofile.data.ScreenTimeoutSetting;
 import de.ub0r.android.nfcprofile.data.VibratorSetting;
 
 /**
@@ -70,24 +72,39 @@ public final class ProfileActivity extends PreferenceActivity implements
 		this.setAndInvokeOnPreferenceChangeListener(pm,
 				this.findPreference("name"), this);
 		this.setAndInvokeOnPreferenceChangeListener(pm,
-				this.findPreference(AirplaneModeSetting.class.getSimpleName()),
-				this);
+				AirplaneModeSetting.class.getSimpleName(), this);
 		this.setAndInvokeOnPreferenceChangeListener(pm,
-				this.findPreference(RingModeSetting.class.getSimpleName()),
-				this);
-		this.setAndInvokeOnPreferenceChangeListener(
-				pm,
-				this.findPreference(VibratorSetting.class.getSimpleName()
-						+ "_0"), this);
-		this.setAndInvokeOnPreferenceChangeListener(
-				pm,
-				this.findPreference(VibratorSetting.class.getSimpleName()
-						+ "_1"), this);
+				ScreenTimeoutSetting.class.getSimpleName(), this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				ScreenBrightnessSetting.class.getSimpleName(), this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				RingModeSetting.class.getSimpleName(), this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				VibratorSetting.class.getSimpleName() + "_0", this);
+		this.setAndInvokeOnPreferenceChangeListener(pm,
+				VibratorSetting.class.getSimpleName() + "_1", this);
 		if (!Intent.ACTION_INSERT.equals(this.getIntent().getAction())) {
 			PreferenceScreen ps = (PreferenceScreen) this
 					.findPreference("container");
 			ps.removePreference(this.findPreference("unknown_profile"));
 		}
+	}
+
+	/**
+	 * Set and invoke {@link OnPreferenceChangeListener}.
+	 * 
+	 * @param pm
+	 *            {@link PreferenceManager}
+	 * @param p
+	 *            key of {@link Preference}
+	 * @param opcl
+	 *            {@link OnPreferenceChangeListener}
+	 */
+	private void setAndInvokeOnPreferenceChangeListener(
+			final PreferenceManager pm, final String p,
+			final OnPreferenceChangeListener opcl) {
+		this.setAndInvokeOnPreferenceChangeListener(pm, this.findPreference(p),
+				opcl);
 	}
 
 	/**
@@ -132,6 +149,14 @@ public final class ProfileActivity extends PreferenceActivity implements
 			preference.setSummary(this.translateStringList(
 					R.array.vibrator_values, R.array.vibrator_settings,
 					(String) newValue));
+		} else if (k.equals(ScreenTimeoutSetting.class.getSimpleName())) {
+			preference.setSummary(this.translateStringList(
+					R.array.screentimeout_values,
+					R.array.screentimeout_settings, (String) newValue));
+		} else if (k.equals(ScreenBrightnessSetting.class.getSimpleName())) {
+			preference.setSummary(this.translateStringList(
+					R.array.screenbrightness_values,
+					R.array.screenbrightness_settings, (String) newValue));
 		}
 		return true;
 	}
@@ -154,7 +179,7 @@ public final class ProfileActivity extends PreferenceActivity implements
 		String[] stringv = r.getStringArray(resIdValues);
 		for (int i = 0; i < stringk.length; i++) {
 			if (k.equals(stringk[i])) {
-				return stringv[i];
+				return stringv[i].replaceAll("%", "%%");
 			}
 		}
 		return null;

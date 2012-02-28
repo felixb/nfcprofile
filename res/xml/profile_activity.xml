@@ -35,6 +35,18 @@
             android:entryValues="@array/onoff_values"
             android:key="AirplaneModeSetting"
             android:title="@string/aitplanemode_settings" />
+        <ListPreference
+            android:defaultValue="unchanged"
+            android:entries="@array/screentimeout_settings"
+            android:entryValues="@array/screentimeout_values"
+            android:key="ScreenTimeoutSetting"
+            android:title="@string/screen_timeout_settings" />
+        <ListPreference
+            android:defaultValue="unchanged"
+            android:entries="@array/screenbrightness_settings"
+            android:entryValues="@array/screenbrightness_values"
+            android:key="ScreenBrightnessSetting"
+            android:title="@string/screen_brigthmess_settings" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/sound" >
         <ListPreference

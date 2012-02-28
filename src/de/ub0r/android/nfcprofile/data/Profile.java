@@ -56,6 +56,8 @@ public final class Profile implements ISetable {
 		Log.d(TAG, "new Profile(" + p.getString("name", null) + ")");
 		ArrayList<Setting> s = new ArrayList<Setting>(p.getAll().size());
 		s.add(new AirplaneModeSetting());
+		s.add(new ScreenTimeoutSetting());
+		s.add(new ScreenBrightnessSetting());
 		s.add(new VibratorSetting(0));
 		s.add(new VibratorSetting(1));
 		s.add(new RingModeSetting());

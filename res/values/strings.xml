@@ -37,6 +37,8 @@
     <string name="new_profile">New Profile</string>
     <string name="device">Device</string>
     <string name="aitplanemode_settings">Airplane mode</string>
+    <string name="screen_timeout_settings">Screen timeout</string>
+    <string name="screen_brigthmess_settings">Screen brightness</string>
     <string name="sound">Sound</string>
     <string name="ringtone_settings">Ringtone</string>
     <string name="vibrator_settings_ringtone">Vibrator (Ringtone)</string>
@@ -61,12 +63,37 @@
         <item>On</item>
         <item>Off</item>
     </string-array>
-    
     <string-array name="vibrator_settings">
         <item>Keep unchanged</item>
         <item>On</item>
         <item>Off</item>
         <item>Vibrate when silent</item>
+    </string-array>
+    <string-array name="screentimeout_settings">
+        <item>Keep unchanged</item>
+        <item>10 Seconds</item>
+        <item>30 Seconds</item>
+        <item>60 Seconds</item>
+        <item>90 Seconds</item>
+        <item>2 Minutes</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>Keep on</item>
+    </string-array>
+    <string-array name="screenbrightness_settings">
+        <item>Keep unchanged</item>
+        <item>Automatic</item>
+        <item>0%</item>
+        <item>10%</item>
+        <item>20%</item>
+        <item>30%</item>
+        <item>40%</item>
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
     </string-array>
 
 </resources>

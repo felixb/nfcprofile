@@ -57,7 +57,7 @@ public final class VibratorSetting extends Setting {
 	@Override
 	public void load(final SharedPreferences p) {
 		this.desiredState = p.getString(this.getName(), null);
-		if (this.desiredState == UNCHANGED) {
+		if (this.desiredState == null || this.desiredState.equals(UNCHANGED)) {
 			this.desiredState = null;
 		}
 	}
