@@ -41,9 +41,6 @@ public final class NfcReaderActivity extends Activity {
 	/** Vibrate pattern: switch profile off. */
 	private static final long[] VIBRATE_OFF = new long[] { 0L, 100L, 100L, 100L };
 
-	/** Preference's name: current profile. */
-	private static final String CURRENT_PROFILE = "current_profile";
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -76,13 +73,13 @@ public final class NfcReaderActivity extends Activity {
 				.getDefaultSharedPreferences(this);
 		Profile prof = new Profile(this.getSharedPreferences(key, MODE_PRIVATE));
 
-		if (p.getString(CURRENT_PROFILE, null) == null
+		if (p.getString(Profile.CURRENT_PROFILE, null) == null
 				|| !p.getBoolean("reset_on_second_touch", true)) {
 			// set new profile to key
 			Log.i(TAG, "switch profile: " + key);
 			prof.set(this);
 
-			p.edit().putString(CURRENT_PROFILE, key).apply();
+			p.edit().putString(Profile.CURRENT_PROFILE, key).apply();
 			if (p.getBoolean("vibrate", true)) {
 				Vibrator vibrator = (Vibrator) this
 						.getSystemService(VIBRATOR_SERVICE);
@@ -92,7 +89,7 @@ public final class NfcReaderActivity extends Activity {
 			// reset to previous settings
 			Log.i(TAG, "reset to previous settings");
 			prof.reset(this);
-			p.edit().remove(CURRENT_PROFILE).apply();
+			p.edit().remove(Profile.CURRENT_PROFILE).apply();
 
 			if (p.getBoolean("vibrate", true)) {
 				Vibrator vibrator = (Vibrator) this

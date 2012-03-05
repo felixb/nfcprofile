@@ -192,6 +192,20 @@ public final class ProfileActivity extends PreferenceActivity implements
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(final Menu menu) {
+		String current = PreferenceManager.getDefaultSharedPreferences(this)
+				.getString(Profile.CURRENT_PROFILE, null);
+		if (current != null && current.equals(this.key)) {
+			menu.findItem(R.id.activate_profile).setVisible(false);
+			menu.findItem(R.id.deactivate_profile).setVisible(true);
+		} else {
+			menu.findItem(R.id.activate_profile).setVisible(true);
+			menu.findItem(R.id.deactivate_profile).setVisible(false);
+		}
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
@@ -221,10 +235,14 @@ public final class ProfileActivity extends PreferenceActivity implements
 		case R.id.activate_profile:
 			new Profile(this.getPreferenceManager().getSharedPreferences())
 					.set(this);
+			PreferenceManager.getDefaultSharedPreferences(this).edit()
+					.putString(Profile.CURRENT_PROFILE, this.key).apply();
 			return true;
 		case R.id.deactivate_profile:
 			new Profile(this.getPreferenceManager().getSharedPreferences())
 					.reset(this);
+			PreferenceManager.getDefaultSharedPreferences(this).edit()
+					.remove(Profile.CURRENT_PROFILE).apply();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

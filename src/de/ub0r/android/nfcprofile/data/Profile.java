@@ -38,6 +38,9 @@ public final class Profile implements ISetable {
 	/** Tag for Logging. */
 	private static final String TAG = "Profile";
 
+	/** Preference's name: current profile. */
+	public static final String CURRENT_PROFILE = "current_profile";
+
 	/** Preference's name: valid keys. */
 	private static final String PREF_VALIDKEYS = "valid_keys";
 	/** Separate keys with this. */

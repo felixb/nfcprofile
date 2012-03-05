@@ -26,6 +26,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import de.ub0r.android.lib.Log;
 import de.ub0r.android.nfcprofile.NfcProfileBackupAgent;
 import de.ub0r.android.nfcprofile.R;
 import de.ub0r.android.nfcprofile.data.Profile;
@@ -38,7 +39,7 @@ import de.ub0r.android.nfcprofile.data.Profile;
 public final class NfcProfileActivity extends PreferenceActivity implements
 		OnPreferenceClickListener {
 	/** Tag for Logging. */
-	// private static final String TAG = "main";
+	private static final String TAG = "main";
 	/** Key prefix. */
 	private static final String PREFIX = "profile-";
 
@@ -63,10 +64,16 @@ public final class NfcProfileActivity extends PreferenceActivity implements
 		for (int i = l - 1; i > 0; i--) {
 			ps.removePreference(ps.getPreference(i));
 		}
+		String current = PreferenceManager.getDefaultSharedPreferences(this)
+				.getString(Profile.CURRENT_PROFILE, null);
 		for (String[] k : Profile.getValidKeys(this)) {
 			Preference profile = new Preference(this);
 			profile.setKey(PREFIX + k[0]);
 			profile.setTitle(k[1]);
+			Log.d(TAG, "test: " + current + " ?= " + k[0]);
+			if (current != null && current.equals(k[0])) {
+				profile.setSummary(R.string.active);
+			}
 			profile.setOnPreferenceClickListener(this);
 			ps.addPreference(profile);
 		}

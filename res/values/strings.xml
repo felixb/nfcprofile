@@ -56,6 +56,7 @@
     <string name="more_apps_hint">More apps from this author.</string>
     <string name="activate_profile">Activate profile</string>
     <string name="deactivate_profile">Deactivate profile</string>
+    <string name="active">Active</string>
     <string name="share">Share</string>
 
     <string-array name="onoff_settings">
